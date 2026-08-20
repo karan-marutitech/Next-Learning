@@ -17,22 +17,55 @@ export default function CreateExpensePage() {
     }
 
     return (
-        <div>
-            <h1>Create Expense</h1>
-            <form action={createExpense}>
-                <div>
-                    <label htmlFor="title">Title</label>
-                    <input type="text" id="title" name="title" required />
+        <div className="max-w-md">
+            <h1 className="text-2xl font-semibold mb-6">Create Expense</h1>
+            <form action={createExpense} className="flex flex-col gap-4">
+                <div className="flex flex-col gap-1">
+                    <label htmlFor="title" className="text-sm font-medium text-gray-700">
+                        Title
+                    </label>
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        required
+                        className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-500"
+                    />
                 </div>
-                <div>
-                    <label htmlFor="amount">Amount</label>
-                    <input type="number" id="amount" name="amount" step="0.01" required />
+
+                <div className="flex flex-col gap-1">
+                    <label htmlFor="amount" className="text-sm font-medium text-gray-700">
+                        Amount
+                    </label>
+                    <input
+                        type="number"
+                        id="amount"
+                        name="amount"
+                        step="0.01"
+                        required
+                        className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-500"
+                    />
                 </div>
-                <div>
-                    <label htmlFor="category">Category</label>
-                    <input type="text" id="category" name="category" required />
+
+                <div className="flex flex-col gap-1">
+                    <label htmlFor="category" className="text-sm font-medium text-gray-700">
+                        Category
+                    </label>
+                    <input
+                        type="text"
+                        id="category"
+                        name="category"
+                        required
+                        className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-500"
+                    />
                 </div>
-                <button type="submit">Add Expense</button>
+
+                <button
+                    type="submit"
+                    className="bg-slate-800 text-white px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors mt-2"
+                >
+                    Add Expense
+                </button>
             </form>
         </div>
     );

@@ -1,7 +1,7 @@
-import { expenses } from './lib/data';
+import { getExpenses } from './lib/data';
 
-export default function Home() {
-
+export default async function Home() {
+  const expenses = await getExpenses();
   return (
     <>
       <h2>Total No. Expenses: {expenses.length}</h2>

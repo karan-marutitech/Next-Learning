@@ -1,12 +1,11 @@
-import { expenses } from '@/app/lib/data';
+import { getExpenses } from '@/app/lib/data';
 
 export default async function FilterPage({ params }: PageProps<'/expenses/filter/[...slug]'>) {
     const { slug } = await params;
     const [year, month] = slug;
-
+    const expenses = await getExpenses();
     const filtered = expenses.filter((expense) => {
-        const [, expMonth, expYearShort] = expense.date.split('/');
-        const expYear = `20${expYearShort}`;
+        const [, expMonth, expYear] = expense.date.toLocaleDateString('en-GB').split('/');
 
         if (month) {
             return expYear === year && expMonth === month.padStart(2, '0');
@@ -23,7 +22,7 @@ export default async function FilterPage({ params }: PageProps<'/expenses/filter
                 <ul>
                     {filtered.map((expense) => (
                         <li key={expense.id}>
-                            {expense.title} - ₹{expense.amount} ({expense.date})
+                            {expense.title} - ₹{expense.amount} ({expense.date.toLocaleDateString('en-GB')})
                         </li>
                     ))}
                 </ul>
