@@ -1,38 +1,33 @@
 import { prisma } from '@/app/lib/prisma';
+import { auth } from '@/auth';
 import type { Expense } from '@prisma/client';
 
 export type { Expense };
 
-// interface Expense {
-//     id: number;
-//     title: string;
-//     amount: number;
-//     category: string;
-//     date: string;
-// }
-
-// export const expenses : Expense[] = [
-//     {id: 1, title: 'Lunch', amount: 200, category: 'Food', date: '15/08/26'},
-//     {id: 2, title: 'Grocery', amount: 1000, category: 'Shopping', date: '13/08/26'},
-//     {id: 3, title: 'Movie', amount: 700, category: 'Entertainment', date: '16/08/26'},
-//     {id: 4, title: 'Medicine', amount: 2000, category: 'Health', date: '10/08/26'},
-//     {id: 5, title: 'Rent', amount: 12000, category: 'Housing', date: '01/08/26'}
-// ];
-
 export async function getExpenses(): Promise<Expense[]> {
+    const session = await auth();
+    if(!session?.user?.id) return [];
+
     return prisma.expense.findMany({
+        where: { userId: parseInt(session.user.id) },
         orderBy: { date: 'desc' },
     });
 }
 
 export async function getExpenseById(id: number): Promise<Expense | null> {
+    const session = await auth();
+    if(!session?.user?.id) return null;
+
     return prisma.expense.findUnique({
-        where: { id },
+        where: { id, userId: parseInt(session.user.id) },
     });
 }
 
 export async function addExpense(title: string, amount: number, category: string): Promise<Expense> {
+    const session = await auth();
+    if(!session?.user?.id) throw new Error("You must logged in to add an expense.");
+
     return prisma.expense.create({
-        data: { title, amount, category },
+        data: { title, amount, category, userId: parseInt(session.user.id) },
     });
 }
